@@ -35,7 +35,6 @@ function App() {
           history.push("/");
         }
       })
-      .then(() => setMailUser(email))
       .catch((err) => alert(err));
   }
 
