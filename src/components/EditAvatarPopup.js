@@ -1,9 +1,9 @@
-import React from "react";
+import {useRef, useState} from "react";
 import PopupWithForm from "./PopupWithForm";
 function EditAvatarPopup({ isOpen, onClose, handleOverlay, onUpdateAvatar }) {
-  const avatarRef = React.useRef();
-  const [buttonText, setButtonText] = React.useState("Сохранить");
-  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const avatarRef = useRef();
+  const [buttonText, setButtonText] = useState("Сохранить");
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();

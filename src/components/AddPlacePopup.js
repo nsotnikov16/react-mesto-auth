@@ -1,11 +1,11 @@
-import React from "react";
+import {useRef, useState} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, handleOverlay, onAddPlace }) {
-  const nameCardRef = React.useRef();
-  const linkCardRef = React.useRef();
-  const [buttonText, setButtonText] = React.useState("Создать");
-  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const nameCardRef = useRef();
+  const linkCardRef = useRef();
+  const [buttonText, setButtonText] = useState("Создать");
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();

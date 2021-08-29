@@ -1,5 +1,5 @@
 import { popupOpened } from "../utils/constants";
-import React from "react";
+import {useRef} from "react";
 
 function PopupWithForm({
   name,
@@ -12,7 +12,7 @@ function PopupWithForm({
   buttonText,
   buttonDisabled,
 }) {
-  const formRef = React.useRef();
+  const formRef = useRef();
 
   return (
     <div

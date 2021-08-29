@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
@@ -19,11 +19,10 @@ import ProtectedRoute from "./ProtectedRoute";
 import { register, authorize, checkToken } from "../utils/auth.js";
 
 function App() {
-
   // Authorization & Registration
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [mailUser, setMailUser] = React.useState("");
-  const [isRegisterSuccess, setIsRegisterSuccess] = React.useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [mailUser, setMailUser] = useState("");
+  const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
 
   const history = useHistory();
 
@@ -32,24 +31,26 @@ function App() {
       .then((data) => {
         if (data.token) {
           setLoggedIn(true);
+          setMailUser(email);
           history.push("/");
         }
       })
       .catch((err) => alert(err));
   }
 
-  function registration (email, password) {
-    register(email, password).then((res) => {
-      if(res.ok) {
-        setIsRegisterSuccess(true)
-      } else {
-        setIsRegisterSuccess(false)
-      }
-      
-    }).then(setIsInfoTooltip(true));
+  function registration(email, password) {
+    register(email, password)
+      .then((res) => {
+        if (res.ok) {
+          setIsRegisterSuccess(true);
+        } else {
+          setIsRegisterSuccess(false);
+        }
+      })
+      .then(setIsInfoTooltip(true));
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
       checkToken(jwt).then((res) => {
@@ -71,12 +72,12 @@ function App() {
   }
 
   //Profile & Cards
-  const [currentUser, setCurrentUser] = React.useState({});
+  const [currentUser, setCurrentUser] = useState({});
 
-  const [cards, setCards] = React.useState([]);
-  const [cardToDelete, setcardToDelete] = React.useState({});
+  const [cards, setCards] = useState([]);
+  const [cardToDelete, setcardToDelete] = useState({});
 
-  React.useEffect(
+  useEffect(
     () =>
       api
         .getInitialCards()
@@ -85,7 +86,7 @@ function App() {
     []
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     api
       .getUserData()
       .then((userdata) => setCurrentUser(userdata))
@@ -128,20 +129,18 @@ function App() {
 
   // Popups
 
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    React.useState(false);
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
-    React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
-  const [isInfoTooltip, setIsInfoTooltip] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState({
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
+  const [isInfoTooltip, setIsInfoTooltip] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({
     name: "",
     link: "",
   });
 
-  const [isHoverAvatar, setIsHoverAvatar] = React.useState(false);
-  const [isVisibleEditAvatar, setIsVisibleEditAvatar] = React.useState(false);
+  const [isHoverAvatar, setIsHoverAvatar] = useState(false);
+  const [isVisibleEditAvatar, setIsVisibleEditAvatar] = useState(false);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -235,51 +234,52 @@ function App() {
       });
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     (isEditProfilePopupOpen ||
       isEditAvatarPopupOpen ||
       isAddPlacePopupOpen ||
       isConfirmPopupOpen ||
       isInfoTooltip ||
       selectedCard.name !== "") &&
-      document.addEventListener("keydown", handleEscClosePopup)
+      document.addEventListener("keydown", handleEscClosePopup);
 
     return () => document.removeEventListener("keydown", handleEscClosePopup);
   });
-
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="page__content">
           <Header signOut={signOut} mail={mailUser} />
-          {<Switch>
-            <ProtectedRoute
-              exact
-              path="/"
-              loggedIn={loggedIn}
-              component={Main}
-              onCardOpen={handleCardClick}
-              onEditProfile={handleEditProfileClick}
-              onEditAvatar={handleEditAvatarClick}
-              onAddPlace={handleAddPlaceClick}
-              onHoverAvatar={hoverEditAvatar}
-              isHover={isHoverAvatar}
-              isVisible={isVisibleEditAvatar}
-              onCardDelete={handleCardDelete}
-              onCardLike={handleCardLike}
-              cards={cards}
-            />
-            <Route path="/sign-in">
-              <Login authorization={authorization} />
-            </Route>
-            <Route path="/sign-up">
-              <Register registration={registration} />
-            </Route>
-            <Route path="/">
-              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
-            </Route>
-          </Switch>}
+          {
+            <Switch>
+              <ProtectedRoute
+                exact
+                path="/"
+                loggedIn={loggedIn}
+                component={Main}
+                onCardOpen={handleCardClick}
+                onEditProfile={handleEditProfileClick}
+                onEditAvatar={handleEditAvatarClick}
+                onAddPlace={handleAddPlaceClick}
+                onHoverAvatar={hoverEditAvatar}
+                isHover={isHoverAvatar}
+                isVisible={isVisibleEditAvatar}
+                onCardDelete={handleCardDelete}
+                onCardLike={handleCardLike}
+                cards={cards}
+              />
+              <Route path="/sign-in">
+                <Login authorization={authorization} />
+              </Route>
+              <Route path="/sign-up">
+                <Register registration={registration} />
+              </Route>
+              <Route path="/">
+                {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+              </Route>
+            </Switch>
+          }
           <Footer />
           <InfoTooltip
             isSuccess={isRegisterSuccess}

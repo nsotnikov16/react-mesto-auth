@@ -1,9 +1,9 @@
 import AuthForm from "./AuthForm";
-import React from "react";
+import {useState} from "react";
 import { Link } from "react-router-dom";
 export default function Register({ registration }) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   function handleChange(evt) {
     evt.target.name === "email"
@@ -22,7 +22,6 @@ export default function Register({ registration }) {
       onChange={handleChange}
       onSubmit={handleSubmit}
     >
-      {/* <p className="auth__link">Уже зарегистрированы? Войти</p> */}
       <p>
         Уже зарегистрированы?{" "}
         <Link to="/sign-in" className="auth__link">

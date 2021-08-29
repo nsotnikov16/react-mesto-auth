@@ -1,4 +1,4 @@
-import React from "react";
+import {useContext} from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import editAvatar from "../images/edit-avatar.svg";
 import { Card } from "./Card";
@@ -15,7 +15,7 @@ function Main({
   onAddPlace,
   onCardOpen,
 }) {
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
   function cardClickImgOpen(data) {
     onCardOpen(data);
   }

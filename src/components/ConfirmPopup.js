@@ -1,9 +1,9 @@
-import React from "react";
+import  {useState} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function ConfirmPopup({ isOpen, onClose, handleOverlay, onConfirm }) {
-  const [buttonText, setButtonText] = React.useState("Да");
-  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const [buttonText, setButtonText] = useState("Да");
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
