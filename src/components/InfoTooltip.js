@@ -10,7 +10,7 @@ export default function InfoTooltip({
 }) {
   return (
     <div
-      className={`popup ${isOpen && "popup_opened"}`}
+      className={`popup popup-infotooltip ${(isOpen && "popup_opened") || ''}`}
       onClick={handleOverlay}
     >
       <div className="popup__container popup__container_infotooltip">

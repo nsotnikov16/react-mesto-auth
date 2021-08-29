@@ -13,4 +13,5 @@
 
 .elements__trash-btn:hover{
     cursor: pointer;
+    opacity: 0.6;
 }

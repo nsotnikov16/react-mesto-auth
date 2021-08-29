@@ -60,7 +60,7 @@ function App() {
         }
       });
     }
-  }, [loggedIn, history]);
+  }, [history]);
 
   function signOut(location) {
     if (location === "/") {
@@ -74,7 +74,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
 
   const [cards, setCards] = React.useState([]);
-  const [currentCard, setCurrentCard] = React.useState([]);
+  const [cardToDelete, setcardToDelete] = React.useState({});
 
   React.useEffect(
     () =>
@@ -107,9 +107,9 @@ function App() {
     setButtonText("Удаление...");
 
     api
-      .deleteCard(currentCard._id)
+      .deleteCard(cardToDelete._id)
       .then(() => {
-        setCards(cards.filter((c) => c._id !== currentCard._id));
+        setCards(cards.filter((c) => c._id !== cardToDelete._id));
         closeAllPopups();
       })
       .catch((err) => {
@@ -123,7 +123,7 @@ function App() {
 
   function handleCardDelete(card) {
     setIsConfirmPopupOpen(!isConfirmPopupOpen);
-    setCurrentCard(card);
+    setcardToDelete(card);
   }
 
   // Popups
@@ -253,7 +253,7 @@ function App() {
       <div className="page">
         <div className="page__content">
           <Header signOut={signOut} mail={mailUser} />
-          <Switch>
+          {<Switch>
             <ProtectedRoute
               exact
               path="/"
@@ -279,7 +279,7 @@ function App() {
             <Route path="/">
               {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
             </Route>
-          </Switch>
+          </Switch>}
           <Footer />
           <InfoTooltip
             isSuccess={isRegisterSuccess}
